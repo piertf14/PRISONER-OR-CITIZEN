@@ -92,7 +92,7 @@ if __name__ == '__main__':
         points = tuple(array_pt_person)
         
         for poly in polys:
-            for p in points[:1]:
+            for p in points:
                 result = point_inside(p, poly)
             if result:
                 print('Prisoner')
