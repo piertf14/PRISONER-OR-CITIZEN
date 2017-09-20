@@ -50,25 +50,40 @@ def point_inside(p, poly):
     ln = len(poly)
     return valid(sum(linea_interseccion_x(p, edge)
                     for edge in poly.edges ))
+
+def validate_number(x,y):
+    if not(int(x) >= 0 and int(x) <= 10)  or not(
+        int(y) >= 0 and int(y) <= 10):
+        return True
+    return False
+
  
 if __name__ == '__main__':
-    file = open('/Users/PieroTerreros/PeqConsultores/test/example.txt', 'r')
-    polys = []
-    edge = []  
+    file = open('/Users/PieroTerreros/PeqConsultores/test/carcel/example.txt', 'r') 
     for row in file:
+        edge = [] 
         array_pt_jail = []
         array_pt_person = []
         jail_coordinates, person_coordinates = row.split('|')
-        back_coordinate = None
-        
+
         for coordinate in jail_coordinates.split(','):
             x,y = coordinate.strip().split(' ')
+            if validate_number(x,y):
+                print('All coordinates are from 0 to 10 and cannot be negative.')
+                break 
             array_pt_jail.append(Pt(x=int(x), y=int(y)))
 
         for coordinate in person_coordinates.split(','):
             x,y = coordinate.strip().split(' ')
-            array_pt_person.append(Pt(x=int(x), y=int(y)))    
-        
+            if validate_number(x,y):
+                print('All coordinates are from 0 to 10 and cannot be negative.')
+                break 
+            array_pt_person.append(Pt(x=int(x), y=int(y)))
+
+        if len(array_pt_jail) < 3 or len(array_pt_jail) > 12:
+            print('The number of coordinates of a prison can be from 3 to 12.')
+            break
+
         for x in xrange(1,len(array_pt_jail)):
             edge.append(Edge(a=array_pt_jail[x-1], b=array_pt_jail[x]))
 
